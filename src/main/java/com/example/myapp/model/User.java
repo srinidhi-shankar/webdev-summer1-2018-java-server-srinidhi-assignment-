@@ -10,13 +10,34 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String username;
-	private String password;
-	private String fname;
-	private String lname;
+	private String username, password, firstName, lastName, phone, role, dob;
 
 	public int getId() {
 		return id;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
 	}
 
 	public void setId(int id) {
@@ -40,19 +61,19 @@ public class User {
 	}
 
 	public String getFname() {
-		return fname;
+		return firstName;
 	}
 
 	public void setFname(String fname) {
-		this.fname = fname;
+		this.firstName = fname;
 	}
 
 	public String getLname() {
-		return lname;
+		return lastName;
 	}
 
 	public void setLname(String lname) {
-		this.lname = lname;
+		this.lastName = lname;
 	}
 
 }

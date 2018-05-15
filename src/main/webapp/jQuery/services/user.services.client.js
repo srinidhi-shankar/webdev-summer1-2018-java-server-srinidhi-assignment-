@@ -6,7 +6,7 @@ function UserServiceClient() {
 	this.deleteUser = deleteUser;
 	this.updateUser = updateUser;
 	this.url = '/api/user';
-	this.login = '/api/login';
+	this.loginUrl = '/api/login';
 	var self = this;
 	
 	function login(username, password) {
