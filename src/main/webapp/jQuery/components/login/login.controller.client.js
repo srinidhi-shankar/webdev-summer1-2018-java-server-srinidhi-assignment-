@@ -18,7 +18,7 @@
     
     function handleLogin(user){
     	if(user!=null){
-    		window.location.href = "../user-admin/user-admin.template.client.html";
+    		window.location.href = "../profile/profile.template.client.html"+"?userId="+user.id;
     	}
     	else{
     		alert("Invalid Credentials!");
