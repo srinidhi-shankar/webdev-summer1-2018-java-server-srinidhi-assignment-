@@ -3,6 +3,8 @@ package com.example.myapp.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,11 +41,14 @@ public class UserService {
 		Optional<User> data = repository.findById(userId);
 		if (data.isPresent()) {
 			User user = data.get();
-			user.setFirstName(newUser.getFirstName());
-			user.setLastName(newUser.getLastName());
-			user.setPassword(newUser.getPassword());
+			user.setFirstName(user.getFirstName());
+			user.setLastName(user.getLastName());
+			user.setPassword(user.getPassword());
 			user.setRole(newUser.getRole());
-			repository.save(user);
+			user.setEmail(newUser.getEmail());
+			user.setPhone(newUser.getPhone());
+			user.setDob(newUser.getDob());
+			return repository.save(user);
 		}
 		return null;
 	}
@@ -55,6 +60,16 @@ public class UserService {
 			return users.get(0);
 		}
 		return null;
+	}
+
+	@PostMapping("/api/logout")
+	public User logout(@RequestBody User user, HttpSession session) { 
+		Optional<User> data = repository.findById(user.getId());
+		if(data.isPresent()) {
+			return data.get();
+		}
+		else
+			return null;
 	}
 
 	@PostMapping("/api/user")
@@ -78,9 +93,10 @@ public class UserService {
 		}
 	}
 
-//	@GetMapping("/api/user/{userName}")
-//	public List<User> findUserByUsername(@PathVariable("userName") String userName) {
-//		return (List<User>) repository.findUserByUsername(userName);
-//	}
+	// @GetMapping("/api/user/{userName}")
+	// public List<User> findUserByUsername(@PathVariable("userName") String
+	// userName) {
+	// return (List<User>) repository.findUserByUsername(userName);
+	// }
 
 }

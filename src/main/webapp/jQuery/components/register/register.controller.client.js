@@ -18,7 +18,7 @@
     		return ;
     	}
     	
-    	var user = new User(username, password, null, null,null,null,null);
+    	var user = new User(username, password, null, null,null,null,null,null);
     	userService.register(user).then(registerSuccess); 
     }
     

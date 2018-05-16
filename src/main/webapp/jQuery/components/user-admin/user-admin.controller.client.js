@@ -22,7 +22,7 @@
     	
     	var lname = $("#lastNameFld").val();
     	var role = $("#roleFld").val();
-    	var user = new User(username, password, fname, lname,null,role,null);
+    	var user = new User(username, password, fname, lname,null,role,null,null);
     		  
     	userService.createUser(user).then(clearForm).then(findAllUsers); 
     }

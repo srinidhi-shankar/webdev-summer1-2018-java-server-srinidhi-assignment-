@@ -66,7 +66,9 @@ function UserServiceClient() {
 			},
 			body : JSON.stringify(user)
 		}).then(function(response) {
-			return response;
+			return response.json().catch(function(){
+				return null;
+			});
 		})
 	}
 	
