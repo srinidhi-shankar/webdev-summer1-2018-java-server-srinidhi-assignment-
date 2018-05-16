@@ -24,41 +24,63 @@ public class UserService {
 	public List<User> findAllUsers() {
 		return (List<User>) repository.findAll();
 	}
-	
+
 	@GetMapping("/api/user/{userId}")
 	public User findUserById(@PathVariable("userId") int userId) {
-		Optional<User>	data = repository.findById(userId);
-		if(data.isPresent()) {
+		Optional<User> data = repository.findById(userId);
+		if (data.isPresent()) {
 			return data.get();
 		}
 		return null;
 	}
-	
+
 	@PutMapping("/api/user/{userId}")
-	public User updateUser(@PathVariable("userId") int userId,@RequestBody User newUser) {
-		Optional<User>	data = repository.findById(userId);
-		if(data.isPresent()) {
+	public User updateUser(@PathVariable("userId") int userId, @RequestBody User newUser) {
+		Optional<User> data = repository.findById(userId);
+		if (data.isPresent()) {
 			User user = data.get();
-			user.setFname(newUser.getFname());
-			user.setLname(newUser.getLname());
+			user.setFirstName(newUser.getFirstName());
+			user.setLastName(newUser.getLastName());
 			user.setPassword(newUser.getPassword());
+			user.setRole(newUser.getRole());
 			repository.save(user);
 		}
 		return null;
 	}
-	
+
 	@PostMapping("/api/login")
-	public List<User> login(@RequestBody User user) {
-		return (List<User>) repository.findUserByCredentials(user.getUsername(),user.getPassword());
+	public User login(@RequestBody User user) {
+		List<User> users = (List<User>) repository.findUserByCredentials(user.getUsername(), user.getPassword());
+		if (users.size() != 0) {
+			return users.get(0);
+		}
+		return null;
 	}
-	
+
 	@PostMapping("/api/user")
 	public User createUser(@RequestBody User user) {
 		return repository.save(user);
 	}
-	
+
 	@DeleteMapping("/api/user/{userId}")
 	public void deleteUser(@PathVariable("userId") int id) {
 		repository.deleteById(id);
 	}
+
+	@PostMapping("/api/register")
+	public User register(@RequestBody User user) {
+		String username = user.getUsername();
+		List<User> users = (List<User>) repository.findUserByUsername(username);
+		if (users.size() == 0) {
+			return repository.save(user);
+		} else {
+			return null;
+		}
+	}
+
+//	@GetMapping("/api/user/{userName}")
+//	public List<User> findUserByUsername(@PathVariable("userName") String userName) {
+//		return (List<User>) repository.findUserByUsername(userName);
+//	}
+
 }

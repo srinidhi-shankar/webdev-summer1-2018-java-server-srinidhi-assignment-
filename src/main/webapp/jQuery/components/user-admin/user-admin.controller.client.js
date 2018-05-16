@@ -4,7 +4,7 @@
     var $removeBtn, $editBtn, $createBtn;
     var $firstNameFld, $lastNameFld;
     var $userRowTemplate, $tbody;
-    var userService = new AdminUserServiceClient();
+    var userService = new UserServiceClient();
     $(main);
 
     function main() { 
@@ -18,11 +18,13 @@
     function createUser() {   
     	var username = $("#usernameFld").val(); 
     	var password = $("#passwordFld").val(); 
-    	var fname = $("#fnameFld").val(); 
-    	var lname = $("#lnameFld").val();
-    	var user = new User(username, password, fname, lname, phone, role, dob);
+    	var fname = $("#firstNameFld").val(); 
+    	
+    	var lname = $("#lastNameFld").val();
+    	var role = $("#roleFld").val();
+    	var user = new User(username, password, fname, lname,null,role,null);
     		  
-    	userService.createUser(user).then(findAllUsers); 
+    	userService.createUser(user).then(clearForm).then(findAllUsers); 
     }
     
     
@@ -55,7 +57,7 @@
     	var updateBtn = $(event.currentTarget);
         var userId = updateBtn.attr('id');
         
-    	var username = $('#userameFld').val();
+    	var username = $('#usernameFld').val();
     	var password = $('#passwordFld').val();
         var firstName = $('#firstNameFld').val();
         var lastName = $('#lastNameFld').val();
@@ -71,8 +73,16 @@
         };
 
         userService
-            .updateUser(user)
+            .updateUser(userId,user).then(clearForm)
             .then(findAllUsers);
+    }
+    
+    function clearForm(){
+    	var username = $('#usernameFld').val("");
+    	var password = $('#passwordFld').val("");
+        var firstName = $('#firstNameFld').val("");
+        var lastName = $('#lastNameFld').val("");
+        var role = $('#roleFld').val("");
     }
     
     function renderUser(user) {  
@@ -97,59 +107,19 @@
             clone.find(".wbdv-remove").attr("id",user.id);
             clone.find(".wbdv-edit").attr("id",user.id);
             clone.find('.wbdv-remove').click(deleteUser);
-            clone.find('.wbdv-edit').click(editUser);
+            clone.find('.wbdv-edit').click(findUserById);
             
             clone.find('.wbdv-username')
-                .val(user.username);
+                .html(user.username);
+            clone.find('.wbdv-first-name')
+            .html(user.firstName);
+            clone.find('.wbdv-last-name')
+            .html(user.lastName);
+            clone.find('.wbdv-role')
+            .html(user.role);
+            
             $tbody.append(clone);
         }
     }
     
 })();
-
-/*
- * (function() {
- * 
- * var tbody; var template;
- * 
- * var $usernameFld, $passwordFld; var $removeBtn, $editBtn, $createBtn; var
- * $firstNameFld, $lastNameFld; var $userRowTemplate, $tbody;
- * 
- * var userService = new UserServiceClient();
- * 
- * $(main); function main() {
- * 
- * template = $('.template'); tbody = $('tbody');
- * 
- * findAllUsers(); $("#createUser").click(createUser); }
- * 
- * function findAllUsers() { userService.findAllUsers().then(renderUsers); }
- * 
- * function renderUsers(users) { tbody.html(""); for (var i = 0; i <
- * users.length; i++) { console.log(users[i].username); var clone =
- * template.clone(); clone.attr("id",users[i].id);
- * clone.find('.delete').click(deleteUser); clone.find('.edit').click(editUser);
- * clone.find('.username').html(users[i].username);
- * clone.find('.password').html("****");
- * clone.find('.fname').html(users[i].fname);
- * clone.find('.lname').html(users[i].lname);
- * 
- * tbody.append(clone) } }
- * 
- * function createUser() { var username = $("#usernameFld").val(); var password =
- * $("#passwordFld").val(); var fname = $("#fnameFld").val(); var lname =
- * $("#lnameFld").val();
- * 
- * var user = { username : username, password : password, fname : fname, lname :
- * lname };
- * 
- * userService.createUser(user).then(findAllUsers); }
- * 
- * function deleteUser(event){ var target = $(event.currentTarget) var userid =
- * target.parent().parent().attr("id");
- * userService.deleteUser(userid).then(findAllUsers); }
- * 
- * function editUser(event){ console.log("edit:"+event) }
- * 
- * })();
- */

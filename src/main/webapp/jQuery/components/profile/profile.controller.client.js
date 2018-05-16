@@ -14,7 +14,7 @@
 		$fname = $("#fname");
 		$lname = $("#lname");
 		$$updateBtn = $("#updateBtn").click(updateUser);
-		findUserById(22);
+		findUserById(getUrlVars()["userId"]);
 	}
 
 	function findUserById(userId) {
@@ -43,6 +43,19 @@
 			alert("successfully updated");
 		}
 		
+	}
+	
+	function getUrlVars()
+	{
+	    var vars = [], hash;
+	    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+	    for(var i = 0; i < hashes.length; i++)
+	    {
+	        hash = hashes[i].split('=');
+	        vars.push(hash[0]);
+	        vars[hash[0]] = hash[1];
+	    }
+	    return vars;
 	}
 
 })();
