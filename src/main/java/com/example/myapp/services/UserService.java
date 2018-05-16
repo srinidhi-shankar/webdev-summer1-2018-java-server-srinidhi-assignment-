@@ -41,18 +41,30 @@ public class UserService {
 		Optional<User> data = repository.findById(userId);
 		if (data.isPresent()) {
 			User user = data.get();
-			user.setFirstName(user.getFirstName());
-			user.setLastName(user.getLastName());
-			user.setPassword(user.getPassword());
+			user.setFirstName(newUser.getFirstName());
+			user.setLastName(newUser.getLastName());
+			user.setPassword(newUser.getPassword());
 			user.setRole(newUser.getRole());
-			user.setEmail(newUser.getEmail());
-			user.setPhone(newUser.getPhone());
-			user.setDob(newUser.getDob());
+			
 			return repository.save(user);
 		}
 		return null;
 	}
-
+	
+	@PutMapping("/api/profile/{userId}")
+	public User updateProfile(@PathVariable("userId") int userId, @RequestBody User newUser) {
+		Optional<User> data = repository.findById(userId);
+		if (data.isPresent()) {
+			User user = data.get();
+			user.setEmail(newUser.getEmail());
+			user.setPhone(newUser.getPhone());
+			user.setDob(newUser.getDob());
+			user.setRole(newUser.getRole());
+			return repository.save(user);	
+		}
+		return null;
+	}
+	
 	@PostMapping("/api/login")
 	public User login(@RequestBody User user) {
 		List<User> users = (List<User>) repository.findUserByCredentials(user.getUsername(), user.getPassword());

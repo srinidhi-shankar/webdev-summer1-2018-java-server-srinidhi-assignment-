@@ -18,7 +18,7 @@
 		$email = $("#emailFld");
 		$dob = $("#dobFld");
 		
-		$updateBtn = $("#updateBtn").click(updateUser);
+		$updateBtn = $("#updateBtn").click(updateProfile);
 		$updateBtn = $("#logoutBtn").click(logoutUser);
 		findUserById(getUrlVars()["userId"]);
 		$(".wbdv-datePicker").datepicker();
@@ -36,9 +36,9 @@
 		$dob.val(user.dob);
 	}
 
-	function updateUser() {
+	function updateProfile() {
 		var user = new User($staticUserName.val(), "", "", "", $phone.val(), $role.val(), $dob.val(), $email.val());
-		userService.updateUser(getUrlVars()["userId"], user).then(success);
+		userService.updateProfile(getUrlVars()["userId"], user).then(success);
 	}
 	
 	function logoutUser(){

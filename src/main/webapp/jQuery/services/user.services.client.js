@@ -72,6 +72,21 @@ function UserServiceClient() {
 		})
 	}
 	
+	
+	function updateProfile(userId, user) {
+		return fetch(self.url + "/" + userId, {
+			method : "put",
+			headers : {
+				"content-type" : "application/json"
+			},
+			body : JSON.stringify(user)
+		}).then(function(response) {
+			return response.json().catch(function(){
+				return null;
+			});
+		})
+	}
+	
 	function register(user){
 		return fetch(self.registerUrl, {
 			method : "post",
