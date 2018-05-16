@@ -10,6 +10,7 @@ function UserServiceClient() {
 
 	this.url = '/api/user';
 	this.registerUrl = '/api/register';
+	this.profileUrl = '/api/profile';
 	this.loginUrl = '/api/login';
 	var self = this;
 
@@ -74,7 +75,7 @@ function UserServiceClient() {
 	
 	
 	function updateProfile(userId, user) {
-		return fetch(self.url + "/" + userId, {
+		return fetch(self.profileUrl + "/" + userId, {
 			method : "put",
 			headers : {
 				"content-type" : "application/json"
