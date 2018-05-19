@@ -20,29 +20,41 @@
 		
 		$updateBtn = $("#updateBtn").click(updateProfile);
 		$updateBtn = $("#logoutBtn").click(logoutUser);
-		findUserById(getUrlVars()["userId"]);
+		//findUserById();
+		getProfile();
 		$(".wbdv-datePicker").datepicker();
 	}
 
 	function findUserById(userId) {
 		userService.findUserById(userId).then(renderUser);
 	}
+	
+	function getProfile(){
+		userService.getProfile().then(renderUser);
+	}
 
 	function renderUser(user) {
-		$staticUserName.val(user.username);
-		$phone.val(user.phone);
-		$role.val(user.role);
-		$email.val(user.email);
-		$dob.val(user.dob);
+		if(user!=null){
+			$staticUserName.val(user.username);
+			$phone.val(user.phone);
+			$role.val(user.role);
+			$email.val(user.email);
+			$dob.val(user.dob);
+		}
+		else{
+			alert("Could not fetch the user!");
+		}
 	}
 
 	function updateProfile() {
 		var user = new User($staticUserName.val(), "", "", "", $phone.val(), $role.val(), $dob.val(), $email.val());
-		userService.updateProfile(getUrlVars()["userId"], user).then(success);
+		userService.updateProfile(user).then(success);
 	}
 	
 	function logoutUser(){
-		window.location.href = "../login/login.template.client.html"
+		userService.logout().then(function(){
+			window.location.href = "../login/login.template.client.html";
+		});
 	}
 
 	function success(response) {

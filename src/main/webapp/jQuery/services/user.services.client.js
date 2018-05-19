@@ -7,16 +7,21 @@ function UserServiceClient() {
 	this.updateUser = updateUser;
 	this.register = register;
 	this.login = login;
-
+	this.getProfile = getProfile;
+	this.updateProfile = updateProfile;
+	this.logout = logout;
+	
 	this.url = '/api/user';
 	this.registerUrl = '/api/register';
 	this.profileUrl = '/api/profile';
 	this.loginUrl = '/api/login';
+	this.logoutUrl = '/api/logout';
 	var self = this;
 
 	function login(username, password) {
 		return fetch(self.loginUrl, {
 			method : 'post',
+			credentials: "same-origin",
 			body : JSON.stringify({
 				username : username,
 				password : password
@@ -73,10 +78,22 @@ function UserServiceClient() {
 		})
 	}
 	
+	function getProfile(){
+		return fetch(self.profileUrl,{
+			method:"get",
+			credentials:"same-origin"
+		}).then(function(response) {
+			return response.json().catch(function(){
+				return null;
+			});
+		});
+	}
 	
-	function updateProfile(userId, user) {
-		return fetch(self.profileUrl + "/" + userId, {
+	
+	function updateProfile(user) {
+		return fetch(self.profileUrl, {
 			method : "put",
+			credentials: "same-origin",
 			headers : {
 				"content-type" : "application/json"
 			},
@@ -91,6 +108,7 @@ function UserServiceClient() {
 	function register(user){
 		return fetch(self.registerUrl, {
 			method : "post",
+			credentials: "same-origin",
 			headers : {
 				"content-type" : "application/json"
 			},
@@ -99,6 +117,13 @@ function UserServiceClient() {
 				return response.json().catch(function(){
 					return null;
 				});
+		});
+	}
+	
+	function logout(){
+		return fetch(self.logoutUrl, {
+			method : "post",
+			credentials: "same-origin"
 		});
 	}
 	
