@@ -28,6 +28,7 @@ public class Module {
 	@OneToMany(mappedBy = "module", orphanRemoval = true)
 	private List<Lesson> lessons;
 	private String title;
+	
 	@ManyToOne
 	@JsonIgnore
 	private Course course;
